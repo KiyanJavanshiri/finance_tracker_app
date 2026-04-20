@@ -1,4 +1,13 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  ParseIntPipe,
+  UseGuards,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { AuthGuard } from 'src/auth/guard/auth.guard';
 
@@ -7,8 +16,14 @@ import { AuthGuard } from 'src/auth/guard/auth.guard';
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
-  @Get()
-  async getAllUsers() {
-    return this.usersService.getAllUsers();
+  @Get(':id')
+  async getUserById(@Param('id', ParseIntPipe) id: number) {
+    return await this.usersService.getUserById(id);
+  }
+
+  @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async deleteUserById(@Param('id', ParseIntPipe) id: number) {
+    await this.usersService.deleteUserById(id);
   }
 }

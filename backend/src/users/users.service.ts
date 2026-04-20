@@ -14,6 +14,14 @@ export class UsersService {
     return await this.userRepository.find();
   }
 
+  async getUserById(id: number) {
+    return await this.userRepository.findOne({
+      where: {
+        id,
+      },
+    });
+  }
+
   async getUserByEmail(email: string) {
     return await this.userRepository.findOne({
       where: {
@@ -25,5 +33,9 @@ export class UsersService {
   async createUser(dto: CreateUserDto) {
     const user = this.userRepository.create(dto);
     return await this.userRepository.save(user);
+  }
+
+  async deleteUserById(id: number) {
+    await this.userRepository.delete(id);
   }
 }
