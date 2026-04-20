@@ -13,7 +13,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
   private readonly logger = new Logger(GlobalExceptionFilter.name, {
     timestamp: true,
   });
-  catch(exception: unknown, host: ArgumentsHost) {
+  catch(exception: any, host: ArgumentsHost) {
     const response = host.switchToHttp().getResponse<Response>();
     const status = HttpStatus.INTERNAL_SERVER_ERROR;
 
@@ -21,7 +21,9 @@ export class GlobalExceptionFilter implements ExceptionFilter {
       throw exception;
     }
 
+    //
     this.logger.error(
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       `Exception: ${exception.message}, stack: ${exception.stack}`,
     );
 
