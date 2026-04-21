@@ -35,6 +35,17 @@ export class TransactionsService {
     return transactions;
   }
 
+  async getTransactionById(transactionId: number, userId: number) {
+    return await this.TransactionsRepository.findOne({
+      where: {
+        user: {
+          id: userId,
+        },
+        id: transactionId,
+      },
+    });
+  }
+
   async getTransactionsOverview(
     type: TransactionEnum,
     range: TDateRange = 'monthly',

@@ -27,7 +27,7 @@ export class Transaction {
   })
   type: TransactionEnum;
 
-  @Column({ type: 'date', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({ type: 'date' })
   date: Date;
 
   @Column({ nullable: true, type: 'varchar', length: 220 })

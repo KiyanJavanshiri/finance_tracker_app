@@ -4,3 +4,5 @@ export enum TransactionEnum {
 }
 
 export type TDateRange = 'daily' | 'monthly' | 'yearly';
+
+export type JWTCustomPayload = { id: number; username: string };

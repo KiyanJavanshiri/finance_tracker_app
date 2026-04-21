@@ -10,22 +10,30 @@ import {
   HttpStatus,
   Param,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { TransactionsService } from './transactions.service';
-import type { TDateRange, TransactionEnum } from 'src/utils/types';
+import type {
+  TDateRange,
+  TransactionEnum,
+  JWTCustomPayload,
+} from 'src/utils/types';
 import type { Request as TRequest } from 'express';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
+import { QueryTransformPipe } from 'src/pipes/query-transform.pipe';
+import { AuthGuard } from 'src/auth/guard/auth.guard';
 
+@UseGuards(AuthGuard)
 @Controller('transactions')
 export class TransactionsController {
   constructor(private transactionsService: TransactionsService) {}
 
-  @Get('all')
+  @Get('')
   async getAllUserTransactions(
-    @Query('types') types: TransactionEnum[],
+    @Query('types', QueryTransformPipe) types: TransactionEnum[],
     @Request() req: TRequest,
   ) {
-    const userId = req.user.id as number;
+    const userId = (req as TRequest & { user: JWTCustomPayload }).user.id;
     return await this.transactionsService.getAllUserTransactions(types, userId);
   }
 
@@ -35,7 +43,7 @@ export class TransactionsController {
     @Query('range') range: TDateRange,
     @Request() req: TRequest,
   ) {
-    const userId = req.user.id as number;
+    const userId = (req as TRequest & { user: JWTCustomPayload }).user.id;
     return await this.transactionsService.getTransactionsOverview(
       type,
       range,
@@ -43,9 +51,21 @@ export class TransactionsController {
     );
   }
 
+  @Get(':id')
+  async getTransactionById(
+    @Param('id', ParseIntPipe) transactionId: number,
+    @Request() req: TRequest,
+  ) {
+    const userId = (req as TRequest & { user: JWTCustomPayload }).user.id;
+    return this.transactionsService.getTransactionById(transactionId, userId);
+  }
+
   @Post('create')
-  async createTransaction(@Body() dto: CreateTransactionDto) {
-    const userId = req.user.id as number;
+  async createTransaction(
+    @Body() dto: CreateTransactionDto,
+    @Request() req: TRequest,
+  ) {
+    const userId = (req as TRequest & { user: JWTCustomPayload }).user.id;
     return await this.transactionsService.createTransaction(dto, userId);
   }
 
@@ -55,7 +75,7 @@ export class TransactionsController {
     @Param('id', ParseIntPipe) transactionId: number,
     @Request() req: TRequest,
   ) {
-    const userId = req.user.id as number;
+    const userId = (req as TRequest & { user: JWTCustomPayload }).user.id;
     await this.transactionsService.deleteTransactionById(transactionId, userId);
   }
 }

@@ -1,20 +1,17 @@
+import { Type } from 'class-transformer';
 import {
   IsDate,
-  IsDecimal,
   IsEnum,
-  IsInt,
   IsNotEmpty,
+  IsNumber,
   IsOptional,
-  IsPositive,
   IsString,
 } from 'class-validator';
 import { TransactionEnum } from 'src/utils/types';
 
 export class CreateTransactionDto {
-  @IsDecimal(
-    {
-      decimal_digits: '2',
-    },
+  @IsNumber(
+    { maxDecimalPlaces: 2 },
     {
       message:
         '$property should be decimal with $constraint1 digits in the end',
@@ -33,6 +30,7 @@ export class CreateTransactionDto {
   })
   type: TransactionEnum;
 
+  @Type(() => Date)
   @IsDate({
     message: '$property should be date',
   })

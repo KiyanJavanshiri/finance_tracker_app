@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { BadRequestException, ValidationPipe } from '@nestjs/common';
 import { GlobalExceptionFilter } from './filters/global-exception.filter';
 import { HttpExceptionFilter } from './filters/http-exception.filter';
+import { ResponseMapperInterceptor } from './interceptors/response-mapper.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -27,6 +28,7 @@ async function bootstrap() {
     }),
   );
   app.useGlobalFilters(new GlobalExceptionFilter(), new HttpExceptionFilter());
+  app.useGlobalInterceptors(new ResponseMapperInterceptor());
   await app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
   });
