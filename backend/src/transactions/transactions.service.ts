@@ -4,6 +4,7 @@ import { Transaction } from './transactions.entity';
 import { Between, In, Repository } from 'typeorm';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { TDateRange, TransactionEnum } from 'src/utils/types';
+import { getDateRange } from 'src/utils/getDateRange';
 
 @Injectable()
 export class TransactionsService {
@@ -12,8 +13,13 @@ export class TransactionsService {
     private TransactionsRepository: Repository<Transaction>,
   ) {}
 
-  async createTranscation(dto: CreateTransactionDto) {
-    const transaction = this.TransactionsRepository.create(dto);
+  async createTransaction(dto: CreateTransactionDto, userId: number) {
+    const transaction = this.TransactionsRepository.create({
+      ...dto,
+      user: {
+        id: userId,
+      },
+    });
     return await this.TransactionsRepository.save(transaction);
   }
 
@@ -31,16 +37,17 @@ export class TransactionsService {
 
   async getTransactionsOverview(
     type: TransactionEnum,
-    range: TDateRange,
+    range: TDateRange = 'monthly',
     userId: number,
   ) {
+    const { from, to } = getDateRange(range);
     const transactions = await this.TransactionsRepository.find({
       where: {
         user: {
           id: userId,
         },
         type,
-        date: Between()
+        date: Between(from, to),
       },
       order: {
         date: 'DESC',

@@ -2,8 +2,10 @@ import {
   IsDate,
   IsDecimal,
   IsEnum,
+  IsInt,
   IsNotEmpty,
   IsOptional,
+  IsPositive,
   IsString,
 } from 'class-validator';
 import { TransactionEnum } from 'src/utils/types';
