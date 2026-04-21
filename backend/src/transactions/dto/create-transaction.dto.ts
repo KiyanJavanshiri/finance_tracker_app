@@ -6,8 +6,10 @@ import {
   IsNumber,
   IsOptional,
   IsString,
+  Validate,
 } from 'class-validator';
-import { TransactionEnum } from 'src/utils/types';
+import { IsCorrectCategory } from 'src/utils/IsCorrectCategory';
+import { type TransactionCategory, TransactionEnum } from 'src/utils/types';
 
 export class CreateTransactionDto {
   @IsNumber(
@@ -23,12 +25,19 @@ export class CreateTransactionDto {
   amount: number;
 
   @IsEnum(TransactionEnum, {
-    message: '$property should be one of the provided variants: $constraint1',
+    message:
+      '$property should be one of the provided variants: income or expense',
   })
   @IsNotEmpty({
     message: '$property is required',
   })
   type: TransactionEnum;
+
+  @Validate(IsCorrectCategory)
+  @IsNotEmpty({
+    message: '$property is required',
+  })
+  category: TransactionCategory;
 
   @Type(() => Date)
   @IsDate({

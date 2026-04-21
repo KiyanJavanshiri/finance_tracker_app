@@ -28,7 +28,7 @@ import { AuthGuard } from 'src/auth/guard/auth.guard';
 export class TransactionsController {
   constructor(private transactionsService: TransactionsService) {}
 
-  @Get('')
+  @Get()
   async getAllUserTransactions(
     @Query('types', QueryTransformPipe) types: TransactionEnum[],
     @Request() req: TRequest,

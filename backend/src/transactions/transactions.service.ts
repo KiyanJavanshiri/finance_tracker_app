@@ -31,6 +31,9 @@ export class TransactionsService {
         },
         type: In(types),
       },
+      select: {
+        user: false,
+      },
     });
     return transactions;
   }

@@ -7,7 +7,11 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { TransactionEnum } from 'src/utils/types';
+import {
+  TransactionEnum,
+  TransactionCategoryAll,
+  type TransactionCategory,
+} from 'src/utils/types';
 import { User } from 'src/users/users.entity';
 
 @Entity({
@@ -26,6 +30,13 @@ export class Transaction {
     default: TransactionEnum.Income,
   })
   type: TransactionEnum;
+
+  @Column({
+    type: 'enum',
+    enum: TransactionCategoryAll,
+    nullable: false,
+  })
+  category: TransactionCategory;
 
   @Column({ type: 'date' })
   date: Date;
