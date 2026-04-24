@@ -39,7 +39,6 @@ export const actionLogin = async (
 
     const cookie = await cookies();
     cookie.set("token", response.data.data.access_token);
-    redirect("/");
   } catch (error) {
     if (axios.isAxiosError<TApiError>(error)) {
       const err = error.response?.data;
@@ -56,4 +55,56 @@ export const actionLogin = async (
       };
     }
   }
+
+  redirect("/");
+};
+
+export const actionRegister = async (
+  state: TAuthState<TAuthSchema>,
+  formData: FormData,
+) => {
+  const rawData = Object.fromEntries(formData);
+
+  const validationResult = authSchema.safeParse(rawData);
+
+  if (!validationResult.success) {
+    return {
+      ...state,
+      errors: z.flattenError(validationResult.error).fieldErrors,
+      success: false,
+      message: "validation error",
+      fields: {
+        email: formData.get("email") as string,
+        password: formData.get("password") as string,
+        username: formData.get("username") as string,
+      },
+    };
+  }
+
+  const data = validationResult.data;
+
+  try {
+    await axios.post<TApiResponse<void>>(
+      `${process.env.API_URL}/auth/register`,
+      data,
+    );
+  } catch (error) {
+    if (axios.isAxiosError<TApiError>(error)) {
+      const err = error.response?.data;
+      return {
+        ...state,
+        success: false,
+        message:
+          (err && err.status === 401 && "Wrong Credentials") ||
+          "Error occured on server, try again later",
+        fields: {
+          email: formData.get("email") as string,
+          password: formData.get("password") as string,
+          username: formData.get("username") as string,
+        },
+      };
+    }
+  }
+
+  redirect("/sign-in");
 };

@@ -1,17 +1,17 @@
 "use client";
 import { useActionState } from "react";
 import type { TAuthSchema } from "@/utils/validationSchemas";
-import { actionLogin } from "@/utils/actions/validationActions";
+import { actionRegister } from "@/utils/actions/validationActions";
 import { FaGoogle } from "react-icons/fa";
 import { IoAlertCircle } from "react-icons/io5";
 import Link from "next/link";
 import AuthFormInput from "@/components/inputs/AuthFormInput";
 import Button from "@/components/buttons/Button";
 
-type LoginFormFields = Pick<TAuthSchema, "email" | "password">;
+type RegisterFormFields = TAuthSchema;
 
 const LoginPage = () => {
-  const [state, action, isPending] = useActionState(actionLogin, undefined);
+  const [state, action, isPending] = useActionState(actionRegister, undefined);
 
   return (
     <div className="max-w-125">
@@ -24,17 +24,25 @@ const LoginPage = () => {
         </div>
       )}
       <h2 className="text-2xl font-bold leading-normal text-black mb-4">
-        Sign In
+        Sign Up
       </h2>
       <p className="text-base font-normal text-gray-500 leading-normal mb-8">
-        Enter all your credentials to get access to the system. Don`t have an
+        Create an account by entering all necessary credentials. Already have an
         account?{" "}
-        <Link className="underline text-blue-500" href={"/sign-up"}>
-          Create an account
+        <Link className="underline text-blue-500" href={"/sign-in"}>
+          Log in system
         </Link>
       </p>
       <form action={action} className="flex flex-col gap-y-4">
-        <AuthFormInput<LoginFormFields>
+        <AuthFormInput<RegisterFormFields>
+          name="username"
+          id="username-input"
+          placeholder="Provide your name"
+          label="Username"
+          error={state?.errors?.username && state?.errors?.username[0]}
+          defaultValue={state?.fields.username}
+        />
+        <AuthFormInput<RegisterFormFields>
           name="email"
           id="email-input"
           placeholder="Provide your email address"
@@ -42,7 +50,7 @@ const LoginPage = () => {
           error={state?.errors?.email && state?.errors?.email[0]}
           defaultValue={state?.fields.email}
         />
-        <AuthFormInput<LoginFormFields>
+        <AuthFormInput<RegisterFormFields>
           name="password"
           id="password-input"
           placeholder="Provide your password"
@@ -56,7 +64,7 @@ const LoginPage = () => {
           type="submit"
           disabled={isPending}
         >
-          Sign In
+          Sign Up
         </Button>
         <div className="flex justify-between items-center gap-x-4">
           <div className="h-0.5 flex-1 bg-gray-300"></div>

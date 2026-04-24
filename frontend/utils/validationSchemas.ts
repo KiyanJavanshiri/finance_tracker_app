@@ -10,12 +10,18 @@ export const authSchema = z.object({
     .trim()
     .min(6, "password should be between 6 to 20")
     .max(20, "password should be between 6 to 20"),
+  username: z
+    .string()
+    .min(3, "username should be between 3 to 30")
+    .max(30, "username should be between 3 to 30"),
 });
 
 export type TAuthSchema = z.infer<typeof authSchema>;
-export type TAuthState<T extends object> = {
-  errors?: z.core.$ZodFlattenedError<T>["fieldErrors"];
-  success: boolean;
-  message: string;
-  fields: T;
-} | undefined;
+export type TAuthState<T extends object> =
+  | {
+      errors?: z.core.$ZodFlattenedError<T>["fieldErrors"];
+      success: boolean;
+      message: string;
+      fields: T;
+    }
+  | undefined;
