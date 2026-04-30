@@ -108,3 +108,9 @@ export const actionRegister = async (
 
   redirect("/sign-in");
 };
+
+export const actionLogout = async () => {
+  const cookie = await cookies();
+  cookie.delete("token");
+  redirect("/sign-in");
+};
