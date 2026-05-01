@@ -14,10 +14,15 @@ export class UsersService {
     return await this.userRepository.find();
   }
 
-  async getUserById(id: number) {
+  async getUserDetails(id: number) {
     return await this.userRepository.findOne({
       where: {
         id,
+      },
+      select: {
+        username: true,
+        email: true,
+        avatarUrl: true,
       },
     });
   }
