@@ -15,3 +15,9 @@ export type TPathLink = {
   path: string;
   Icon: IconType;
 };
+
+export type TUser = {
+  username: string;
+  email: string;
+  avatarUrl: string;
+}

@@ -1,9 +1,9 @@
 "use server";
 import z from "zod";
 import { cookies } from "next/headers";
-import axios from "axios";
+import axios, { isAxiosError } from "axios";
 import { TAuthState, TAuthSchema, authSchema } from "../validationSchemas";
-import { TApiError, TApiResponse } from "../types";
+import { TApiError, TApiResponse, TUser } from "../types";
 import { redirect } from "next/navigation";
 
 export const actionLogin = async (
@@ -113,4 +113,26 @@ export const actionLogout = async () => {
   const cookie = await cookies();
   cookie.delete("token");
   redirect("/sign-in");
+};
+
+export const actionGetUserDetails = async () => {
+  try {
+    const cookie = await cookies();
+    const token = cookie.get("token")?.value;
+    const userDetails = await axios.get<TApiResponse<TUser>>(
+      `${process.env.API_URL}/users/details`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+    return userDetails.data.data;
+  } catch {
+    return {
+      username: "",
+      email: "",
+      avatarUrl: "",
+    } as TUser;
+  }
 };
