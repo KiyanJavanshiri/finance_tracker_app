@@ -1,7 +1,7 @@
 "use client";
 import { useActionState } from "react";
 import type { TAuthSchema } from "@/utils/validationSchemas";
-import { actionLogin } from "@/utils/actions/validationActions";
+import { actionLogin } from "@/utils/actions/authActions";
 import { FaGoogle } from "react-icons/fa";
 import { IoAlertCircle } from "react-icons/io5";
 import Link from "next/link";

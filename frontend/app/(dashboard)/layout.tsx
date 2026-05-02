@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { actionGetUserDetails } from "@/utils/actions/validationActions";
+import { actionGetUserDetails } from "@/utils/actions/authActions";
 import SideBar from "@/compositions/Sidebar/SideBar";
 import InnerContainer from "@/layout/InnerContainer";
 import Header from "@/compositions/Header";

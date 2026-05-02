@@ -1,6 +1,6 @@
 import { MdOutlineLogout } from "react-icons/md";
 import Button from "@/components/buttons/Button";
-import { actionLogout } from "@/utils/actions/validationActions";
+import { actionLogout } from "@/utils/actions/authActions";
 
 const LogoutButton = () => {
   return (
