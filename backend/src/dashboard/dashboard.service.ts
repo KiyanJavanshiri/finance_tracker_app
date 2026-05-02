@@ -39,6 +39,14 @@ export class DashboardService {
       spendByCategory[category] =
         (spendByCategory[category] || 0) + Number(exp.amount || 0);
     }
+    const spendByCategoryArray: { category: string; expense: number }[] = [];
+
+    for (const key in spendByCategory) {
+      spendByCategoryArray.push({
+        category: key,
+        expense: spendByCategory[key],
+      });
+    }
 
     const expenseDistribution = Object.entries(spendByCategory).map(
       ([category, amount]) => ({
@@ -69,7 +77,7 @@ export class DashboardService {
         value: savingRate,
       },
       expenseDistribution,
-      spendByCategory,
+      spendByCategoryArray,
     };
   }
 }
