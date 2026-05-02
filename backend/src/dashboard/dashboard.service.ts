@@ -22,6 +22,13 @@ export class DashboardService {
     const monthlyIncome = incomes.reduce((ac, c) => ac + c.amount, 0);
     const monthlyExpense = expenses.reduce((ac, c) => ac + c.amount, 0);
 
+    const incomeCount = incomes.length;
+    const expenseCount = expenses.length;
+
+    const incomeAvg = incomeCount === 0 ? 0 : monthlyIncome / incomeCount;
+
+    const expenseAvg = expenseCount === 0 ? 0 : monthlyExpense / expenseCount;
+
     const savings = monthlyIncome - monthlyExpense;
     const savingRate =
       monthlyIncome === 0 ? 0 : Math.round((savings / monthlyIncome) * 100);
@@ -45,12 +52,24 @@ export class DashboardService {
     );
 
     return {
-      monthlyIncome,
-      monthlyExpense,
-      savingRate,
-      savings,
-      spendByCategory,
+      income: {
+        total: monthlyIncome,
+        avg: incomeAvg,
+        count: incomeCount,
+      },
+      expense: {
+        total: monthlyExpense,
+        avg: expenseAvg,
+        count: expenseCount,
+      },
+      savings: {
+        total: savings,
+      },
+      savingRate: {
+        value: savingRate,
+      },
       expenseDistribution,
+      spendByCategory,
     };
   }
 }
