@@ -12,10 +12,10 @@ const DashboardContainer = async () => {
     return <p>Something went wrong, try again later</p>;
   }
 
-  const { income, expense, savingRate, expenseDistribution, spendByCategory } =
+  const { income, expense, savingRate, expenseDistribution, spendByCategoryArray } =
     dashboardOverviewData;
 
-  console.log("spendByCategory: ", spendByCategory);
+  console.log("spendByCategoryArray: ", spendByCategoryArray);
   console.log("expenseDistribution: ", expenseDistribution);
 
   const figuredData: TStaticticBlock[] = [
@@ -52,7 +52,7 @@ const DashboardContainer = async () => {
           </li>
         ))}
       </ul>
-      <ExpensesChartsContainer spendByCategory={spendByCategory} expenseDistribution={expenseDistribution} />
+      <ExpensesChartsContainer spendByCategory={spendByCategoryArray} expenseDistribution={expenseDistribution} />
     </div>
   );
 };

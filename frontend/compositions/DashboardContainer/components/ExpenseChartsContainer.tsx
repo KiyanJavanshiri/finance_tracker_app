@@ -4,7 +4,7 @@ import SpendByCategoryChart from "./SpendByCategoryChart";
 
 type ExpenseChartsProps = {
   expenseDistribution: TDashboardData["expenseDistribution"];
-  spendByCategory: TDashboardData["spendByCategory"];
+  spendByCategory: TDashboardData["spendByCategoryArray"];
 };
 
 const ExpensesChartsContainer = ({
@@ -14,9 +14,9 @@ const ExpensesChartsContainer = ({
   return (
     <div className="bg-gray-100 border border-gray-300 rounded-lg">
       <div className="p-3">
-        <h3 className="">Expenses overview</h3>
+        <h3 className="text-base font-medium leading-normal text-black capitalize">Expenses overview</h3>
       </div>
-      <div className="p-3 bg-white border-t border-gray-300 rounded-t-md rounded-b-lg grid grid-cols-2 gap-x-8">
+      <div className="p-4 bg-white border-t border-gray-300 rounded-t-md rounded-b-lg grid grid-cols-2 gap-x-8">
         <SpendByCategoryChart data={spendByCategory} />
         <ExpenseDistributionChart data={expenseDistribution} />
       </div>

@@ -44,7 +44,7 @@ export type TDashboardData = {
     amount: number;
     percent: number;
   }[];
-  spendByCategory: Record<string, number>;
+  spendByCategoryArray: { category: string; expense: number }[];
 };
 
 type TransactionStatistic = {
