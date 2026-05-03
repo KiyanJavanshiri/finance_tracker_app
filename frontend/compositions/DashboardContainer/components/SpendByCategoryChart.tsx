@@ -18,7 +18,7 @@ const SpendByCategoryChart = ({
   data: TDashboardData["spendByCategoryArray"];
 }) => {
   return (
-    <div className="w-full h-100 p-6 rounded-md shadow-[0_0_10px_rgba(0,0,0,10%)] select-none">
+    <div className="w-full h-full p-6 rounded-md shadow-[0_0_10px_rgba(0,0,0,10%)] select-none">
       <div className="flex justify-start items-center gap-x-3 mb-6">
         <div className="p-1 rounded-sm bg-blue-500">
           <FaRegChartBar className="text-white" />

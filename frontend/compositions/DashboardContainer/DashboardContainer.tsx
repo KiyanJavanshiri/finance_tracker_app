@@ -1,22 +1,22 @@
-import { actionGetDashboardOverview } from "@/utils/actions/getDashboardOverview";
+import { actionGetDashboardOverview, actionGetRecentTransactions } from "@/utils/actions/getDashboardOverview";
 import { TStaticticBlock } from "@/utils/types";
 import { FaArrowTrendUp, FaArrowTrendDown } from "react-icons/fa6";
 import { MdSavings } from "react-icons/md";
 import StatisticDataBlock from "./components/StatisticDataBlock";
 import ExpensesChartsContainer from "./components/ExpenseChartsContainer";
+import RecentTransactions from "./components/RecentTransactions";
 
 const DashboardContainer = async () => {
   const dashboardOverviewData = await actionGetDashboardOverview();
+  const recentTransactions = await actionGetRecentTransactions();
 
-  if (!dashboardOverviewData) {
+  if (!dashboardOverviewData || !recentTransactions) {
     return <p>Something went wrong, try again later</p>;
   }
 
   const { income, expense, savingRate, expenseDistribution, spendByCategoryArray } =
     dashboardOverviewData;
-
-  console.log("spendByCategoryArray: ", spendByCategoryArray);
-  console.log("expenseDistribution: ", expenseDistribution);
+  
 
   const figuredData: TStaticticBlock[] = [
     {
@@ -53,6 +53,7 @@ const DashboardContainer = async () => {
         ))}
       </ul>
       <ExpensesChartsContainer spendByCategory={spendByCategoryArray} expenseDistribution={expenseDistribution} />
+      <RecentTransactions transactions={recentTransactions} />
     </div>
   );
 };
