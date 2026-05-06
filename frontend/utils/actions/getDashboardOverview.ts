@@ -27,16 +27,14 @@ export const actionGetRecentTransactions = async () => {
     const cookie = await cookies();
     const token = cookie.get("token")?.value;
     const response = await axios.get<TApiResponse<TOperationType[]>>(
-      `${process.env.API_URL}/transactions?types=income,expense`,
+      `${process.env.API_URL}/transactions?types=income,expense&limit=5`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       },
     );
-    return response.data.data.sort(
-      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-    );
+    return response.data.data;
   } catch {
     return undefined;
   }

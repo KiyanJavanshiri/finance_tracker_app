@@ -96,6 +96,7 @@ export type TransactionCategory =
   | TransactionCategoryExpense;
 
 export type TOperationType = {
+  id: number;
   amount: number;
   type: TransactionEnum;
   category: TransactionCategory;
