@@ -22,6 +22,7 @@ import type { Request as TRequest } from 'express';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { QueryTransformPipe } from 'src/pipes/query-transform.pipe';
 import { AuthGuard } from 'src/auth/guard/auth.guard';
+import { PaginationTransformPipe } from 'src/pipes/pagination-transform.pipe';
 
 @UseGuards(AuthGuard)
 @Controller('transactions')
@@ -32,9 +33,16 @@ export class TransactionsController {
   async getAllUserTransactions(
     @Query('types', QueryTransformPipe) types: TransactionEnum[],
     @Request() req: TRequest,
+    @Query('page', PaginationTransformPipe) page?: number,
+    @Query('limit', PaginationTransformPipe) limit?: number,
   ) {
     const userId = (req as TRequest & { user: JWTCustomPayload }).user.id;
-    return await this.transactionsService.getAllUserTransactions(types, userId);
+    return await this.transactionsService.getAllUserTransactions(
+      types,
+      userId,
+      page,
+      limit,
+    );
   }
 
   @Get('overview')

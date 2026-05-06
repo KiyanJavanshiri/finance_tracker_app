@@ -23,7 +23,12 @@ export class TransactionsService {
     return await this.TransactionsRepository.save(transaction);
   }
 
-  async getAllUserTransactions(types: TransactionEnum[], userId: number) {
+  async getAllUserTransactions(
+    types: TransactionEnum[],
+    userId: number,
+    page: number = 1,
+    limit: number = 10,
+  ) {
     const transactions = await this.TransactionsRepository.find({
       where: {
         user: {
@@ -33,6 +38,11 @@ export class TransactionsService {
       },
       select: {
         user: false,
+      },
+      take: limit,
+      skip: (page - 1) * limit,
+      order: {
+        date: 'DESC',
       },
     });
     return transactions;
