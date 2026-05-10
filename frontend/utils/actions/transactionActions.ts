@@ -4,18 +4,20 @@ import { TApiResponse, TOperationType, TransactionEnum } from "../types";
 import axios from "axios";
 import { redirect } from "next/navigation";
 
-export const actionGetTransactions = async (type: TransactionEnum) => {
+export const actionGetTransactions = async (
+  type: TransactionEnum,
+  page: number,
+) => {
   const cookie = await cookies();
   const token = cookie.get("token")?.value;
   try {
-    const response = await axios.get<TApiResponse<TOperationType[]>>(
-      `${process.env.API_URL}/transactions?types=${type}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+    const response = await axios.get<
+      TApiResponse<{ transactions: TOperationType[]; count: number }>
+    >(`${process.env.API_URL}/transactions?types=${type}&page=${page}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
       },
-    );
+    });
 
     return response.data.data;
   } catch (err) {

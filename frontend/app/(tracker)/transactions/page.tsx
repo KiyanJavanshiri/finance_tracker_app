@@ -6,9 +6,9 @@ import { Suspense } from "react";
 const TransactionsPage = async ({
   searchParams,
 }: {
-  searchParams: Promise<{ type?: TransactionEnum }>;
+  searchParams: Promise<{ type?: TransactionEnum; page?: number }>;
 }) => {
-  const { type = TransactionEnum.Income } = await searchParams;
+  const {type = TransactionEnum.Income, page = 1} = await searchParams;
   return (
     <div>
       <PageTitle
@@ -16,7 +16,7 @@ const TransactionsPage = async ({
         description="Complete list of all financial transactions"
       />
       <Suspense>
-        <TransactionsContainer type={type} />
+        <TransactionsContainer type={type} page={page} />
       </Suspense>
     </div>
   );
