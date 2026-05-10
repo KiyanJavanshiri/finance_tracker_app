@@ -29,7 +29,7 @@ export class TransactionsService {
     page: number = 1,
     limit: number = 10,
   ) {
-    const transactions = await this.TransactionsRepository.find({
+    const transactions = await this.TransactionsRepository.findAndCount({
       where: {
         user: {
           id: userId,
@@ -45,7 +45,10 @@ export class TransactionsService {
         date: 'DESC',
       },
     });
-    return transactions;
+    return {
+      transactions: transactions[0],
+      count: transactions[1],
+    };
   }
 
   async getTransactionById(transactionId: number, userId: number) {

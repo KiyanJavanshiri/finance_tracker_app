@@ -7,10 +7,11 @@ export class DashboardService {
   constructor(private transactionService: TransactionsService) {}
 
   async getDashboardOverview(userId: number) {
-    const transactions = await this.transactionService.getAllUserTransactions(
-      [TransactionEnum.Income, TransactionEnum.Expense],
-      userId,
-    );
+    const { transactions } =
+      await this.transactionService.getAllUserTransactions(
+        [TransactionEnum.Income, TransactionEnum.Expense],
+        userId,
+      );
 
     const incomes = transactions.filter(
       (t) => t.type === TransactionEnum.Income,
