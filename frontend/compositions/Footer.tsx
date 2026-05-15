@@ -1,6 +1,6 @@
 import InnerContainer from "@/layout/InnerContainer";
 
-export const Footer = () => {
+const Footer = () => {
   const now = new Date().getFullYear();
 
   return (
@@ -15,3 +15,5 @@ export const Footer = () => {
     </footer>
   );
 };
+
+export default Footer;

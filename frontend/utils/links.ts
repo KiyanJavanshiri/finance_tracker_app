@@ -53,3 +53,14 @@ export const CATEGORY_ICONS = {
   [TransactionCategoryIncome.Gift]: MdCardGiftcard,
   [TransactionCategoryIncome.Other]: MdMore,
 };
+
+export const getProperCategoryOption = (type: "income" | "expense" = "income") => {
+  return Object.values(
+    type === "income" ? TransactionCategoryIncome : TransactionCategoryExpense,
+  ).map((el) => {
+    return {
+      title: el,
+      value: el,
+    };
+  });
+};
