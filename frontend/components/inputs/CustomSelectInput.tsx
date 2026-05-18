@@ -22,7 +22,7 @@ const CustomSelectInput = (props: TCustomSelectInput) => {
   return (
     <div className="relative">
       <div
-        className={`flex justify-between items-center px-4 py-3 rounded-sm border ${isOpen ? "border-blue-500" : "border-gray-300"}`}
+        className={`flex justify-between items-center px-4 py-3 rounded-sm border ${isOpen ? "border-blue-500" : "border-gray-300"} cursor-pointer`}
         onClick={() => setIsOpen(!isOpen)}
       >
         <input type="hidden" value={selectedValue} name={name} />
@@ -30,10 +30,10 @@ const CustomSelectInput = (props: TCustomSelectInput) => {
         <FaChevronDown className={`${isOpen ? "rotate-180" : ""}`} />
       </div>
       {isOpen && (
-        <ul className="absolute -bottom-2 left-0 right-0 -translate-y-full bg-white border border-gray-300 rounded-sm p-2 flex flex-col gap-y-2 cursor-pointer">
+        <ul className="absolute -bottom-2 left-0 right-0 translate-y-full bg-white border border-gray-300 rounded-sm p-2 flex flex-col gap-y-2 cursor-pointer max-h-30 overflow-y-scroll">
           {options.map(({ title, value }, i) => (
             <li
-              className="p-1 rounded-md hover:bg-gray-400 text-black text-sm leading-normal font-medium"
+              className="px-3 py-2 rounded-md hover:bg-gray-200 text-black text-sm leading-normal font-medium capitalize"
               key={i}
               onClick={() => handleSelectOption(value)}
             >

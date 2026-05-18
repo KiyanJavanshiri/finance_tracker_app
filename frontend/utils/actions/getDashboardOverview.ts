@@ -26,7 +26,7 @@ export const actionGetRecentTransactions = async () => {
   try {
     const cookie = await cookies();
     const token = cookie.get("token")?.value;
-    const response = await axios.get<TApiResponse<TOperationType[]>>(
+    const response = await axios.get<TApiResponse<{transactions: TOperationType[]; count: number}>>(
       `${process.env.API_URL}/transactions?types=income,expense&limit=5`,
       {
         headers: {
@@ -34,7 +34,7 @@ export const actionGetRecentTransactions = async () => {
         },
       },
     );
-    return response.data.data;
+    return response.data.data.transactions;
   } catch {
     return undefined;
   }

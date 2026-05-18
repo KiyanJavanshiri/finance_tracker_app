@@ -1,4 +1,5 @@
 import z from "zod";
+import { TransactionCategoryAll, TransactionEnum } from "./types";
 
 export const authSchema = z.object({
   email: z.email({
@@ -16,8 +17,23 @@ export const authSchema = z.object({
     .max(30, "username should be between 3 to 30"),
 });
 
+export const transactionSchema = z.object({
+  amount: z.coerce
+    .number({
+      error: "This field should be number",
+    })
+    .min(1, "Min value for amount is 1"),
+  type: z.enum(Object.values(TransactionEnum)),
+  category: z.enum(Object.values(TransactionCategoryAll)),
+  date: z.date({
+    error: "This field should be date",
+  }),
+  description: z.string().optional(),
+});
+
+export type TransactionSchema = z.infer<typeof transactionSchema>;
 export type TAuthSchema = z.infer<typeof authSchema>;
-export type TAuthState<T extends object> =
+export type TFormState<T extends object> =
   | {
       errors?: z.core.$ZodFlattenedError<T>["fieldErrors"];
       success: boolean;

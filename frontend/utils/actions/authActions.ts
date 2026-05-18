@@ -2,12 +2,12 @@
 import z from "zod";
 import { cookies } from "next/headers";
 import axios, { isAxiosError } from "axios";
-import { TAuthState, TAuthSchema, authSchema } from "../validationSchemas";
+import { TFormState, TAuthSchema, authSchema } from "../validationSchemas";
 import { TApiError, TApiResponse, TUser } from "../types";
 import { redirect } from "next/navigation";
 
 export const actionLogin = async (
-  state: TAuthState<Pick<TAuthSchema, "email" | "password">>,
+  state: TFormState<Pick<TAuthSchema, "email" | "password">>,
   formData: FormData,
 ) => {
   const rawData = Object.fromEntries(formData);
@@ -60,7 +60,7 @@ export const actionLogin = async (
 };
 
 export const actionRegister = async (
-  state: TAuthState<TAuthSchema>,
+  state: TFormState<TAuthSchema>,
   formData: FormData,
 ) => {
   const rawData = Object.fromEntries(formData);
