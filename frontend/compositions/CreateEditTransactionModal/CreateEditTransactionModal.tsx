@@ -9,6 +9,7 @@ import SwitchTransactionType from "./components/SwitchTransactionType";
 import CustomSelectInput from "@/components/inputs/CustomSelectInput";
 import { getProperCategoryOption } from "@/utils/links";
 import { actionCreateTransaction } from "@/utils/actions/transactionActions";
+import CustomDateInput from "@/components/inputs/CustomDateInput";
 
 type TCreateEditTransactionModalProps = {
   transaction?: TOperationType;
@@ -57,7 +58,9 @@ const CreateEditTransactionModal = (
                 className="px-4 py-3 rounded-sm border border-gray-300 transition-colors duration-150 ease-in-out focus:border-blue-500 outline-none text-sm leading-normal text-black placeholder:text-gray-500 w-full"
                 name="description"
                 placeholder="Enter description"
-                defaultValue={transaction?.description || state?.fields.description}
+                defaultValue={
+                  transaction?.description || state?.fields.description
+                }
               />
             </FormFieldWrapper>
             <FormFieldWrapper label="Amount">
@@ -74,6 +77,9 @@ const CreateEditTransactionModal = (
                 options={getProperCategoryOption(type)}
                 defaultValue={transaction?.category || state?.fields.category}
               />
+            </FormFieldWrapper>
+            <FormFieldWrapper label="Date">
+              <CustomDateInput name="date" defaultValue={transaction?.date} />
             </FormFieldWrapper>
           </div>
           <Button

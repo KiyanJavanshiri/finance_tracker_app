@@ -25,9 +25,7 @@ export const transactionSchema = z.object({
     .min(1, "Min value for amount is 1"),
   type: z.enum(Object.values(TransactionEnum)),
   category: z.enum(Object.values(TransactionCategoryAll)),
-  date: z.date({
-    error: "This field should be date",
-  }),
+  date: z.iso.datetime(),
   description: z.string().optional(),
 });
 
